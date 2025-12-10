@@ -1,0 +1,4 @@
+[package]
+org = "niduni"
+name = "graphql_sample"
+version = "1.0.0"
