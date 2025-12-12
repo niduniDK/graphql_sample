@@ -1,0 +1,26 @@
+type Query {
+  all: [CovidData!]!
+  filter(isoCode: String!): CovidData
+}
+
+type CovidData {
+  isoCode: String!
+  country: String!
+  cases: Int
+  deaths: Int
+  recovered: Int
+  active: Int
+}
+
+type Mutation {
+  add(entry: CovidEntry!): CovidData!
+}
+
+input CovidEntry {
+  isoCode: String!
+  country: String!
+  cases: Int
+  deaths: Int
+  recovered: Int
+  active: Int
+}
