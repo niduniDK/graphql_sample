@@ -1,6 +1,4 @@
-
 {
-    "ballerina.isBI": true,
-    "ballerina.enableRunFast": true,
-    "redhat.telemetry.enabled": false
+  "ballerina.scope": "integration-as-api",
+  "ballerina.isBI": true
 }
