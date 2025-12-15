@@ -28,13 +28,9 @@ endpoints:
     schemaFilePath: openapi.yaml
 
 # +optional Outgoing connection details for the component.
-dependencies:
-  # +optional Defines the connection references from the Internal Marketplace.
-  connectionReferences: []
 
 # +optional Defines runtime configurations
 configurations:
   # +optional List of environment variables to be injected into the component.
   env: []
-  # +optional List of files to be injected into the component from config form
-  file: []
+    
