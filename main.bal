@@ -1,60 +1,55 @@
 import ballerina/graphql;
 
-service class UserDetails {
-    private final int userId;
-    private final string userName;
-    private final string userCity;
-    private final int userAge;
-
-    function init(User user) {
-        self.userId = user.id;
-        self.userName = user.name;
-        self.userCity = user.city;
-        self.userAge = user.age;
-    }
-
-    resource function get id() returns @graphql:ID int {
-        return self.userId;
-    }
-
-    resource function get name() returns string {
-        return self.userName;
-    }
-
-    resource function get city() returns string {
-        return self.userCity;
-    }
-
-    resource function get age() returns int {
-        return self.userAge;
-    }
-}
-
-type User record {|
-    readonly int id;
-    string name;
-    string city;
-    int age;
+public type CovidEntry record {|
+    readonly string isoCode;
+    string country;
+    int cases?;
+    int deaths?;
+    int recovered?;
+    int active?;
 |};
 
-table<User> key(id) Users = table [
-    {id: 1, name: "Amal", city: "Kandy", age: 20},
-    {id: 2, name: "Sunil", city: "Colombo", age: 30},
-    {id: 3, name: "Upali", city: "Wattala", age: 40}
+final table<CovidEntry> key(isoCode) covidEntriesTable = table [
+    {isoCode: "AFG", country: "Afghanistan", cases: 159303, deaths: 7386, recovered: 146084, active: 5833},
+    {isoCode: "SL", country: "Sri Lanka", cases: 598536, deaths: 15243, recovered: 568637, active: 14656},
+    {isoCode: "US", country: "USA", cases: 69808350, deaths: 880976, recovered: 43892277, active: 25035097}
 ];
 
-listener graphql:Listener graphqlListener = new (9090);
+public distinct service class CovidData {
+    private final readonly & CovidEntry entryRecord;
 
-service /graphql on graphqlListener {
-    resource function get all() returns UserDetails[] {
-        return from User user in Users select new (user);
+    function init(CovidEntry entryRecord) {
+        self.entryRecord = entryRecord.cloneReadOnly();
     }
 
-    resource function get filter(int id) returns UserDetails? {
-        if Users.hasKey(id) {
-            return new UserDetails(Users.get(id));
+    resource function get isoCode() returns string => self.entryRecord.isoCode;
+
+    resource function get country() returns string => self.entryRecord.country;
+
+    resource function get cases() returns int? => self.entryRecord.cases;
+
+    resource function get deaths() returns int? => self.entryRecord.deaths;
+
+    resource function get recovered() returns int? => self.entryRecord.recovered;
+
+    resource function get active() returns int? => self.entryRecord.active;
+}
+
+service /covid19 on new graphql:Listener(9090) {
+
+    resource function get all() returns CovidData[] {
+        return from CovidEntry entry in covidEntriesTable select new (entry);
+    }
+
+    resource function get filter(string isoCode) returns CovidData? {
+        if covidEntriesTable.hasKey(isoCode) {
+            return new CovidData(covidEntriesTable.get(isoCode));
         }
         return;
     }
 
+    remote function add(CovidEntry entry) returns CovidData {
+        covidEntriesTable.add(entry);
+        return new CovidData(entry);
+    }
 }
