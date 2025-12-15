@@ -3,9 +3,8 @@ info:
   title: Ballerina GraphQL Service
   version: 1.0.0
 servers:
-  - url: /
+  - url: /graphql
 paths:
-  # This path is relative to the 'basePath: /graphql' defined in your config
   /:
     post:
       summary: Execute GraphQL Query
@@ -33,3 +32,44 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  data:
+                    type: object
+                    description: The data returned from the GraphQL query
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          description: Error message
+                        locations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              line:
+                                type: integer
+                              column:
+                                type: integer
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
