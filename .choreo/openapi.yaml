@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Ballerina GraphQL Service
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  # This path is relative to the 'basePath: /graphql' defined in your config
+  /:
+    post:
+      summary: Execute GraphQL Query
+      operationId: executeGraphQL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: The GraphQL query string
+                  example: "query { users { name } }"
+                variables:
+                  type: object
+                  description: Optional variables for the query
+      responses:
+        '200':
+          description: Successful GraphQL execution
+          content:
+            application/json:
+              schema:
+                type: object
