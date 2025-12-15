@@ -13,7 +13,7 @@ paths:
   /graphql:
     post:
       summary: GraphQL endpoint
-      operationId: graphqlQuery
+      operationId: graphql
       requestBody:
         required: true
         content:
@@ -23,8 +23,12 @@ paths:
               properties:
                 query:
                   type: string
+                  description: GraphQL query string
                 variables:
                   type: object
+                  description: GraphQL variables
+              required:
+                - query
       responses:
         "200":
           description: Successful GraphQL response
@@ -32,3 +36,33 @@ paths:
             application/json:
               schema:
                 type: object
+components:
+  schemas:
+    UserDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        city:
+          type: string
+        age:
+          type: integer
+          format: int32
+    Query:
+      type: object
+      properties:
+        all:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDetails'
+          description: Returns all users
+        filter:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+          description: Returns a user by ID
