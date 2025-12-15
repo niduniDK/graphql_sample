@@ -1,10 +1,10 @@
 {
-  "last_build_time": 1765529586984,
-  "last_update_time": 1765529586984,
+  "last_build_time": 1765778341497,
+  "last_update_time": 1765778341497,
   "last_bal_toml_update_time": 1765529146693,
   "distribution_version": "2201.13.1",
   "last_modified_time": {
-    "devantgraphql": 1765529556581
+    "devantgraphql": 1765778319862
   },
   "last_build_options": {
     "testReport": false,
@@ -62,9 +62,9 @@
     },
     {
       "file": "C:\\Users\\niduniDK\\my\\graphql_sample\\main.bal",
-      "hash": "4e39324461d486e95d7ed576fd196c176d40db6b7d078565a0b65ad468ceb602",
-      "size": 1456,
-      "lastModifiedTime": 1765529544332
+      "hash": "f50414bcd9529d241ce5cf2b7ccd4fab610b872a626b5d65475f517759ff353b",
+      "size": 1858,
+      "lastModifiedTime": 1765778319862
     },
     {
       "file": "C:\\Users\\niduniDK\\my\\graphql_sample\\types.bal",
@@ -75,9 +75,9 @@
   ],
   "target_exec_meta_info": {
     "file": "C:\\Users\\niduniDK\\my\\graphql_sample\\target\\backup\\bin\\devantgraphql.jar",
-    "hash": "7bdcb738637b21426bf5e019b5d64caf162b0e9f8c66ac2762f73f238e279faf",
-    "size": 51198193,
-    "lastModifiedTime": 1765529589677
+    "hash": "7235098a88ae2c690b7ba61692ddaa61a402453f600767401f9218a1b77343e6",
+    "size": 51219512,
+    "lastModifiedTime": 1765778343780
   },
   "settings_meta_info": {
     "file": "C:\\Users\\niduniDK\\.ballerina\\Settings.toml",

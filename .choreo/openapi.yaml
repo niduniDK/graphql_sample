@@ -2,8 +2,9 @@ openapi: 3.0.1
 info:
   title: Ballerina GraphQL Sample
   version: 0.1.0
+  description: GraphQL API for querying user details
 servers:
-- url: "{server}:{port}/"
+- url: "{server}:{port}"
   variables:
     server:
       default: http://localhost
@@ -13,6 +14,7 @@ paths:
   /graphql:
     post:
       summary: GraphQL endpoint
+      description: Execute GraphQL queries and mutations
       operationId: graphql
       requestBody:
         required: true
@@ -24,11 +26,26 @@ paths:
                 query:
                   type: string
                   description: GraphQL query string
+                  example: "{ all { id name city age } }"
                 variables:
                   type: object
                   description: GraphQL variables
+                  example: {}
+                operationName:
+                  type: string
+                  description: Optional operation name
               required:
                 - query
+            examples:
+              getAllUsers:
+                summary: Get all users
+                value:
+                  query: "{ all { id name city age } }"
+              filterUserById:
+                summary: Filter user by ID
+                value:
+                  query: "{ filter(id: 1) { id name city age } }"
+                  variables: {}
       responses:
         "200":
           description: Successful GraphQL response
@@ -36,33 +53,78 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  data:
+                    type: object
+                    description: Response data
+                  errors:
+                    type: array
+                    description: GraphQL errors if any
+                    items:
+                      type: object
+              examples:
+                getAllUsersResponse:
+                  summary: All users response
+                  value:
+                    data:
+                      all:
+                        - id: 1
+                          name: "Amal"
+                          city: "Kandy"
+                          age: 20
+                        - id: 2
+                          name: "Sunil"
+                          city: "Colombo"
+                          age: 30
+                        - id: 3
+                          name: "Upali"
+                          city: "Wattala"
+                          age: 40
+                filterUserResponse:
+                  summary: Filter user response
+                  value:
+                    data:
+                      filter:
+                        id: 1
+                        name: "Amal"
+                        city: "Kandy"
+                        age: 20
+        "400":
+          description: Bad request (invalid GraphQL query)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
 components:
   schemas:
     UserDetails:
       type: object
+      description: User details object
       properties:
         id:
           type: integer
           format: int32
+          description: Unique user identifier
         name:
           type: string
+          description: User name
         city:
           type: string
+          description: User city
         age:
           type: integer
           format: int32
-    Query:
-      type: object
-      properties:
-        all:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserDetails'
-          description: Returns all users
-        filter:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int32
-          description: Returns a user by ID
+          description: User age
+      required:
+        - id
+        - name
+        - city
+        - age
