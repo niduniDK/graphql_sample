@@ -12,40 +12,18 @@ servers:
       default: "9090"
 paths:
   /graphql:
-    post:
+    get:
       summary: GraphQL endpoint
       description: Execute GraphQL queries and mutations
       operationId: graphql
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: GraphQL query string
-                  example: "{ all { id name city age } }"
-                variables:
-                  type: object
-                  description: GraphQL variables
-                  example: {}
-                operationName:
-                  type: string
-                  description: Optional operation name
-              required:
-                - query
-            examples:
-              getAllUsers:
-                summary: Get all users
-                value:
-                  query: "{ all { id name city age } }"
-              filterUserById:
-                summary: Filter user by ID
-                value:
-                  query: "{ filter(id: 1) { id name city age } }"
-                  variables: {}
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: GraphQL query string
+          schema:
+            type: string
+          example: "{ all { id name city age } }"
       responses:
         "200":
           description: Successful GraphQL response
