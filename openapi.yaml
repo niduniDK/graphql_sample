@@ -1,44 +1,22 @@
 openapi: 3.0.1
 info:
-  title: GraphQL Sample API
-  description: A sample GraphQL API specification
+  title: /
   version: 0.1.0
+servers:
+- url: "{server}:{port}/"
+  variables:
+    server:
+      default: http://localhost
+    port:
+      default: "9090"
 paths:
   /graphql:
-    post:
-      summary: GraphQL Query Endpoint
-      operationId: graphqlQuery
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: GraphQL query string
-                variables:
-                  type: object
-                  description: Query variables
-              required:
-                - query
+    get:
+      operationId: getGreeting
       responses:
-        '200':
-          description: Successful GraphQL response
+        "200":
+          description: Ok
           content:
-            application/json:
+            text/plain:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                  errors:
-                    type: array
-                    items:
-                      type: object
-        '400':
-          description: Bad request
-servers:
-  - url: http://localhost:9090
-    description: Development server
+                type: string
