@@ -11,7 +11,7 @@ servers:
       default: "9090"
 paths:
   /graphql:
-    get:
+    post:
       operationId: getGreeting
       responses:
         "200":
