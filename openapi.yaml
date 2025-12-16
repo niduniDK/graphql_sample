@@ -4,7 +4,7 @@ info:
   description: A sample GraphQL API specification
   version: 0.1.0
 paths:
-  /graphql:
+  /:
     post:
       summary: GraphQL Query Endpoint
       operationId: graphqlQuery
@@ -40,5 +40,5 @@ paths:
         '400':
           description: Bad request
 servers:
-  - url: http://localhost:9090
+  - url: http://localhost:8090
     description: Development server
