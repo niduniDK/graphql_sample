@@ -20,4 +20,4 @@ endpoints:
 
     networkVisibilities: 
       - Public
-    schemaFilePath: openapi.yaml
+    # schemaFilePath: openapi.yaml
