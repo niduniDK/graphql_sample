@@ -16,7 +16,7 @@ endpoints:
       port: 9090
     # +required Type of traffic that the endpoint is accepting.
     # Allowed values: REST, GraphQL, WS, GRPC, TCP, UDP.
-    type: REST
+    type: GraphQL
     # +optional Network level visibilities of the endpoint.
     # Accepted values: Project|Organization|Public(Default).
     networkVisibilities: 
@@ -26,11 +26,3 @@ endpoints:
     # This is only applicable to REST or WS endpoint types.
     # The path should be relative to the docker context.
     schemaFilePath: openapi.yaml
-
-# +optional Outgoing connection details for the component.
-
-# +optional Defines runtime configurations
-configurations:
-  # +optional List of environment variables to be injected into the component.
-  env: []
-    
