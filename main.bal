@@ -1,60 +1,29 @@
 import ballerina/graphql;
 
-service class UserDetails {
-    private final int userId;
-    private final string userName;
-    private final string userCity;
-    private final int userAge;
+# A service representing a network-accessible GraphQL API
+service / on new graphql:Listener(8090) {
 
-    function init(User user) {
-        self.userId = user.id;
-        self.userName = user.name;
-        self.userCity = user.city;
-        self.userAge = user.age;
-    }
-
-    resource function get id() returns @graphql:ID int {
-        return self.userId;
-    }
-
-    resource function get name() returns string {
-        return self.userName;
-    }
-
-    resource function get city() returns string {
-        return self.userCity;
-    }
-
-    resource function get age() returns int {
-        return self.userAge;
-    }
-}
-
-type User record {|
-    readonly int id;
-    string name;
-    string city;
-    int age;
-|};
-
-table<User> key(id) Users = table [
-    {id: 1, name: "Amal", city: "Kandy", age: 20},
-    {id: 2, name: "Sunil", city: "Colombo", age: 30},
-    {id: 3, name: "Upali", city: "Wattala", age: 40}
-];
-
-listener graphql:Listener graphqlListener = new (9090);
-
-service /graphql on graphqlListener {
-    resource function get all() returns UserDetails[] {
-        return from User user in Users select new (user);
-    }
-
-    resource function get filter(int id) returns UserDetails? {
-        if Users.hasKey(id) {
-            return new UserDetails(Users.get(id));
+    # A resource for generating greetings
+    # Example query:
+    #   query GreetWorld{ 
+    #     greeting(name: "World") 
+    #   }
+    # Curl command: 
+    #   curl -X POST -H "Content-Type: application/json" -d '{"query": "query GreetWorld{ greeting(name:\"World\") }"}' http://localhost:8090
+    # 
+    # + name - the input string name
+    # + return - string name with greeting message or error
+    resource function get greeting(string name) returns string|error {
+        if name is "" {
+            return error("name should not be empty!");
         }
-        return;
+        return "Hello, " + name;
     }
 
+    remote function createUser(string name) returns string|error {
+        if name is "" {
+            return error("name should not be empty!");
+        }
+        return "User created with name: " + name;
+    }
 }
