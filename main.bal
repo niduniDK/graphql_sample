@@ -1,6 +1,7 @@
 import ballerina/graphql;
 
 # A service representing a network-accessible GraphQL API
+
 service /graphql on new graphql:Listener(9090) {
 
     # A resource for generating greetings
